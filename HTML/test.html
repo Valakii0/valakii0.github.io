@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="hu">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../CSS/style.css">
+        <link rel="stylesheet" href="../CSS/test.css">
+        <script src="../JS/test.js" defer></script>
+        <title>Neurális hálozat - Teszt</title>
+    </head>
+    <body>
+        <div>
+            <header>
+                <div>
+                    <a href="../index.html">főoldal</a>
+                    <a href="./test.html">teszt</a>
+                    <a href="./game.html">játék</a>
+                </div>
+                <div>
+                    <h1>Neurális hálók</h1>
+                    <h4>teszt</h4>
+                </div>
+                <div>
+                    <a href="./history.html">története</a>
+                    <a href="./theory.html">működése</a>
+                    <a href="./code.html">kód</a>
+                </div>
+            </header>
+            <main>
+                <div>
+
+                    <div class="question-div" type="1">
+                        <div>
+                            <p>1. Melyik nem egy activation algoritmus?
+                            </p>
+                        </div>
+                        <div>
+                            <div><input type="radio" name="first" id="">Step function</div>
+                            <div><input type="radio" name="first" id="">Sigmoid function</div>
+                            <div><input type="radio" name="first" id="">ReLU function</div>
+                            <div><input type="radio" name="first" id="">Jump function</div>
+                        </div>
+                    </div>
+
+                    <div class="question-div" type="1">
+                        <div>
+                            <p>2. Melyek ezek küzöl neurális hálozat típusok? Több jó válasz is van!</p>
+                        </div>
+                        <div>
+                            <div><input type="checkbox" name="" id="">Convolutional neural network</div>
+                            <div><input type="checkbox" name="" id="">Recurrent neural network</div>
+                            <div><input type="checkbox" name="" id="">Perceptron</div>
+                            <div><input type="checkbox" name="" id="">Feedforward networks</div>
+                            <div><input type="checkbox" name="" id="">Deconvolutional neural networks</div>
+                            <div><input type="checkbox" name="" id="">Feedbackward networks</div>
+                            <div><input type="checkbox" name="" id="">Advanced neural networks</div>
+                        </div>
+                    </div>
+
+                    <div class="question-div" type="1">
+                        <div>
+                            <p>3. Mennyi az optimális tanulási/tesztelési adat arány?</p>
+                        </div>
+                        <div>
+                            <div><p id="percentage-a">50</p><input type="range" id="range-input" onmousemove="changeValue(this.value)" value="50"><p id="percentage-b">50</p></div>
+                        </div>
+                    </div>
+
+                    <div class="question-div" type="1">
+                        <div>
+                            <p>4. Mik azok a feedforward neurális hálok?</p>
+                        </div>
+                        <div>
+                            <div><input type="radio" name="second" id="">Olyan hálózatok, ahol az adatok ciklikusan mozognak a rétegek között, hogy javítsák a pontosságot.</div>
+                            <div><input type="radio" name="second" id="">Olyan hálózatok, amelyek kizárólag a visszaterjesztési algoritmust használják a tanuláshoz.</div>
+                            <div><input type="radio" name="second" id="">Olyan hálózatok, ahol az adatok csak egy irányban, előre haladnak a rétegeken keresztül a kimeneti réteg felé.</div>
+                            <div><input type="radio" name="second" id="">Olyan hálózatok, amelyek csak a bemeneti rétegből és egy kimeneti rétegből állnak, köztes rétegek nélkül.</div>                        
+                        </div>
+                    </div>
+
+                    <div class="question-div" type="1">
+                        <div>
+                            <p>5. Mi az a backpropagation algoritmus?</p>
+                        </div>
+                        <div>
+                            <div><input type="radio" name="second" id="">Egy olyan algoritmus, amely a neurális hálózatok bemeneti adatainak véletlenszerű permutációját végzi a tanulás során.</div>
+                            <div><input type="radio" name="second" id="">Egy módszer, amely az adatok előre irányuló áthaladását gyorsítja fel a neurális hálózatban.</div>
+                            <div><input type="radio" name="second" id="">Egy algoritmus, amely a hibát visszafelé terjeszti a hálózatban, hogy finomhangolja a súlyokat és minimalizálja a hibát.</div>
+                            <div><input type="radio" name="second" id="">Egy olyan technika, amely csak a kimeneti réteg neuronjainak aktivációs függvényeit optimalizálja.</div>                        
+                        </div>
+                    </div>
+
+                    <input type="button" onclick="CheckAnswers()" value="SUBMIT">
+                    <p id="wip-p">WORK IN PROGRESS</p>
+                </div>
+            </main>
+            <footer>
+
+            </footer>
+        </div>
+    </body>
+</html>

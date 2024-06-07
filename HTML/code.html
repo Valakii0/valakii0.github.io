@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="hu">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+        <link rel="stylesheet" href="../CSS/style.css">
+        <link rel="stylesheet" href="../CSS/code.css">
+        <script src="../JS/code.js" defer></script>
+        <title>Neurális hálozat - Kód</title>
+    </head>
+    <body>
+        <div>
+            <header>
+                    <div>
+                        <a href="../index.html">főoldal</a>
+                        <a href="./test.html">teszt</a>
+                        <a href="./game.html">játék</a>
+                    </div>
+                    <div>
+                        <h1>Neurális hálók</h1>
+                        <h4>kód</h4>
+                    </div>
+                    <div>
+                        <a href="./history.html">története</a>
+                        <a href="./theory.html">működése</a>
+                        <a href="./code.html">kód</a>
+                    </div>
+            </header>
+            <main>
+                <div id="div">
+                    <pre id="code-pre" class="prettyprint lang-cs">
+using System.Linq;
+
+FileStream numbersFile = new FileStream("train-images.idx3-ubyte", FileMode.Open);
+BinaryReader numbers = new BinaryReader(numbersFile);
+
+FileStream labelsFile = new FileStream("train-labels.idx1-ubyte", FileMode.Open);
+BinaryReader labels = new BinaryReader(labelsFile);
+
+for (int i = 0; i < 4; i++) numbers.ReadInt32();
+for (int i = 0; i < 2; i++) labels.ReadInt32();
+
+System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+customCulture.NumberFormat.NumberDecimalSeparator = ".";
+
+System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
+
+// --------------------
+
+int trainingData = 700;
+int testLength = 300;
+int trainingLength = 1000;
+float learningRate = 0.15f;
+
+// --------------------
+
+Console.Write("Training data size: ");
+trainingData = int.Parse(Console.ReadLine());
+
+Console.Write("Test data size: ");
+testLength = int.Parse(Console.ReadLine());
+
+Console.Write("Training iteration: ");
+trainingLength = int.Parse(Console.ReadLine());
+
+Console.Write("Learning rate: ");
+learningRate = float.Parse(Console.ReadLine());
+
+float[] number;
+float[][] inputs = new float[trainingData][];
+int[] correctNumbers = new int[inputs.Length];
+
+for (int i = 0; i < inputs.Length; i++)
+{
+    inputs[i] = new float[784];
+    for (int j = 0; j < 784; j++)
+    {
+        inputs[i][j] = numbers.ReadByte();
+    }
+}
+
+for (int i = 0; i < inputs.Length; i++)
+{
+    correctNumbers[i] = labels.ReadByte();
+}
+
+float[][] testInputs = new float[testLength][];
+float[] testLabels = new float[testLength];
+
+for (int i = 0; i < testInputs.Length; i++)
+{
+    testInputs[i] = new float[784];
+    for (int j = 0; j < 784; j++)
+    {
+        testInputs[i][j] = numbers.ReadByte();
+    }
+}
+
+for (int i = 0; i < testInputs.Length; i++)
+{
+    testLabels[i] = labels.ReadByte();
+}
+
+Network network = new Network(new int[] { 784, 100, 10 }, inputs, correctNumbers, trainingLength, testInputs, testLabels, learningRate);
+
+Console.Clear();
+network.Learn(trainingLength);
+Console.WriteLine("\nTRAINING COMPLETED");
+Console.WriteLine("Press any key to continue to the testing phase");
+
+StreamWriter sw = new StreamWriter("weights.txt");
+
+sw.Write("[");
+for (int i = 0; i < network.weights.Length; i++)
+{
+    sw.Write("[");
+    for (int j = 0; j < network.weights[i].Length; j++)
+    {
+        sw.Write("[");
+        sw.Write(String.Join(", ", network.weights[i][j]));
+        sw.Write("], ");
+    }
+    sw.Write("], ");
+}
+sw.WriteLine("]\n\n\n");
+sw.Close();
+
+sw = new StreamWriter("biases.txt");
+
+sw.Write("[");
+for (int i = 0; i < network.biases.Length; i++)
+{
+    sw.Write("[");
+    sw.Write(String.Join(", ", network.biases[i]));
+    sw.Write("], ");
+}
+sw.WriteLine("]");
+sw.Close();
+
+Console.ReadLine();
+
+while (true)
+{
+    Console.WriteLine();
+    Console.Write("INPUT: ");
+
+    float[] inp = new float[784];
+    int aaa = 0;
+    foreach (string num in Console.ReadLine().Split(","))
+    {
+        inp[aaa] = float.Parse(num);
+        aaa++;
+    }
+
+    float[] aaaa = network.Classify(inp);
+    Console.WriteLine(String.Join(", ", aaaa));
+    Console.WriteLine(Array.IndexOf(aaaa, aaaa.Max()));
+    Console.WriteLine("KÉSZ");
+    Console.ReadLine();
+}
+
+
+
+int hit = 0;
+
+for (int i = 0; i < 60000 - trainingData; i++)
+{
+    Console.Clear();
+    number = new float[784];
+    for (int e = 0; e < 28; e++)
+    {
+        for (int j = 0; j < 28; j++)
+        {
+            Byte pixel = numbers.ReadByte();
+            number[e * 28 + j] = pixel;
+
+
+            if (pixel > 200)
+            {
+                Console.Write("█");
+            }
+            else if (pixel > 150)
+            {
+                Console.Write("▓");
+            }
+            else if (pixel > 100)
+            {
+                Console.Write("▒");
+            }
+            else if (pixel > 50)
+            {
+                Console.Write("░");
+            }
+            else
+            {
+                Console.Write(" ");
+            }
+        }
+
+        Console.WriteLine();
+        
+    } 
+
+    float[] output = network.Classify(number);
+    int goodNum = labels.ReadByte();
+
+    if (Array.IndexOf(output, output.Max()) == goodNum) hit++;
+
+    Console.Write("Computer: " + Array.IndexOf(output, output.Max()) + "\t" + " Correct: " + goodNum + "\t" + hit + "/" + (i + 1));
+    Console.WriteLine("\n");
+
+    foreach (float n in output)
+    {
+        Console.WriteLine($"{Array.IndexOf(output, n)} - " + n.ToString("0.00") + "%");
+    }
+
+    Console.ReadKey();
+}
+
+Console.Clear();
+Console.WriteLine("PRESS ENTER TO START DRAWING");
+
+
+
+Console.WriteLine("PRESS ENTER TO CLOSE");
+
+class Network
+{
+    int[] layers;
+    int[] correctNumbers;
+    float[][] inputs;
+    float[][] inputsBASED;
+    public float[][][] weights;
+    public float[][] biases;
+    float cost = 0;
+    float learnRate = 0.1f;
+    float[][] outputs;
+    public float[][] weightOutputs;
+
+    float[][] testInputs;
+    float[] testLabels;
+
+    float[][][] changes;
+    float[][] biasesChange;
+    float[] output;
+    int[] correctNumbersBASED;
+    int correctGuess;
+    int trainingLength;
+    int trainingStatus = 0;
+
+    public Network(int[] _layers, float[][] _inputs, int[] _correctNumbers, int _trainingLength, float[][] _testInputs, float[] _testLabels, float _learningRate)
+    {
+        inputs = _inputs;
+        learnRate = _learningRate;
+        inputsBASED = _inputs;
+        layers = _layers;
+        correctNumbersBASED = _correctNumbers;
+        trainingLength = _trainingLength;
+        correctNumbers = _correctNumbers;
+        testInputs = _testInputs;
+        testLabels = _testLabels;
+        Random r = new Random();
+
+        weights = new float[layers.Length - 1][][];
+
+        for (int i = 0; i < layers.Length - 1; i++)
+        {
+            weights[i] = new float[layers[i + 1]][];
+
+            for (int e = 0; e < layers[i + 1]; e++)
+            {
+                weights[i][e] = new float[layers[i]];
+
+                for (int j = 0; j < layers[i]; j++)
+                {
+                    weights[i][e][j] = (float)((r.NextDouble() * 2 - 1) / Math.Sqrt(layers[i]));
+                }
+            }
+        }
+
+        biases = new float[layers.Length - 1][];
+        for (int i = 0; i < layers.Length - 1; i++)
+        {
+            biases[i] = new float[layers[i] + 1];
+
+            for (int e = 0; e < layers[i]; e++)
+            {
+                biases[i][e] = (float)((r.NextDouble() * 2 - 1) / Math.Sqrt(layers[i]));
+            }
+        }
+
+        ResetChanges();
+    }
+
+    void ShuffleInputs()
+    {
+        inputs = inputsBASED.OrderBy(n => Guid.NewGuid()).ToArray();
+        int[] newLabels = new int[correctNumbersBASED.Length];
+
+        int i = 0;
+        foreach (float[] input in inputs)
+        {
+            newLabels[i] = correctNumbersBASED[Array.IndexOf(inputsBASED, input)];
+            i++;
+        }
+
+        correctNumbers = newLabels;
+    }
+
+    void ResetChanges()
+    {
+        changes = new float[layers.Length - 1][][];
+        for (int i = 0; i < layers.Length - 1; i++)
+        {
+            changes[i] = new float[layers[i + 1]][];
+            for (int j = 0; j < layers[i + 1]; j++)
+            {
+                changes[i][j] = new float[layers[i]];
+            }
+        }
+
+        biasesChange = new float[layers.Length - 1][];
+        for (int i = 0; i < layers.Length - 1; i++)
+        {
+            biasesChange[i] = new float[layers[i] + 1];
+        }
+    }
+
+    float BatchTest()
+    {
+        int c = 0;
+
+        for (int i = 0; i < testInputs.Length; i++)
+        {
+            output = Classify(testInputs[i]);
+            if (Array.IndexOf(output, output.Max()) == testLabels[i]) c++;
+        }
+
+        return c / (float)testInputs.Length * 100;
+    }
+
+    public float Cost(int i)
+    {
+        float[] correctAnswer = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        correctAnswer[correctNumbers[i]] = 1;
+        //if (i == inputs.Length - 1) Console.Write(String.Join(" ", correctAnswer));
+
+        float sum = 0;
+        for (int e = 0; e < 10; e++)
+        {
+            sum += (float)Math.Pow(outputs[outputs.Length - 1][e] - correctAnswer[e], 2);
+        }
+
+        return sum;
+    }
+
+    float[] OutputValue(int e)
+    {
+        float[] values = new float[outputs[outputs.Length - 1].Length];
+        for (int i = 0; i < 10; i++)
+        {
+            values[i] = CostDerivative(e)[i] * SigmoidDerivative(weightOutputs[weightOutputs.Length - 1][i]);
+        }
+
+        return values;
+    }
+
+    float[] CostDerivative(int i)
+    {
+        float[] correctAnswer = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        correctAnswer[correctNumbers[i]] = 1;
+
+        float[] costs = new float[correctAnswer.Length];
+        for (int e = 0; e < 10; e++)
+        {
+            costs[e] = 2 * (outputs[outputs.Length - 1][e] - correctAnswer[e]);
+        }
+
+        return costs;
+    }
+
+    float SigmoidDerivative(float num)
+    {
+        float number = (float)(1 / (1 + Math.Exp(-num)));
+        return number * (1 - number);
+    }
+
+    public void Gradiens(int j, float[] values)
+    {
+        for (int i = 0; i < outputs[j + 1].Length; i++)
+        {
+            for (int e = 0; e < outputs[j].Length; e++)
+            {
+                changes[j][i][e] += outputs[j][e] * values[i];
+            }
+
+            biasesChange[j][i] += values[i];
+        }
+    }
+
+    public float[] HiddenValues(int layerNum, int o)
+    {
+        float[] nodeValues = new float[layers[layerNum]];
+        float[] values = OutputValue(o);
+
+        for (int i = 0; i < nodeValues.Length; i++)
+        {
+            float sum = 0;
+            for (int e = 0; e < layers[layerNum + 1]; e++)
+            {
+                sum += weights[layerNum][e][i] * values[e];
+            }
+
+            nodeValues[i] = sum * SigmoidDerivative(weightOutputs[0][i]);
+        }
+
+        return nodeValues;
+    }
+
+    public void Learn(int number)
+    {
+        for (int i = 0; i < number; i++)
+        {
+            trainingStatus++;
+            Test();
+
+            if (Console.KeyAvailable)
+            {
+                if (Console.ReadKey().Key == ConsoleKey.P)
+                {
+                    Console.WriteLine();
+                    break;
+                }
+            }
+        }
+    }
+
+    void ApplyChange()
+    {
+        for (int i = 0; i < layers.Length - 1; i++)
+        {
+            for (int j = 0; j < layers[i + 1]; j++)
+            {
+                for (int k = 0; k < layers[i]; k++)
+                {
+                    weights[i][j][k] -= changes[i][j][k] * (learnRate / inputs.Length);
+                }
+            }
+        }
+
+        for (int i = 0; i < layers.Length - 1; i++)
+        {
+            for (int j = 0; j < layers[i + 1]; j++)
+            {
+                biases[i][j] -= biasesChange[i][j] * (learnRate / inputs.Length);
+            }
+        }
+    }
+
+    float Test()
+    {
+        cost = 0;
+        correctGuess = 0;
+
+        for (int i = 0; i < inputs.Length; i++)
+        {
+            output = ClassifyForTesting(inputs[i]);
+
+            Gradiens(1, OutputValue(i));
+            Gradiens(0, HiddenValues(1, i));
+
+            if (Array.IndexOf(outputs[outputs.Length - 1], outputs[outputs.Length - 1].Max()) == correctNumbers[i]) correctGuess++;
+            cost += Cost(i);
+        }
+
+        ApplyChange();
+        ResetChanges();
+
+        cost /= inputs.Length;
+        return cost;
+    }
+
+    public float[] Classify(float[] output)
+    {
+        for (int i = 0; i < layers.Length - 1; i++)
+        {
+            Layer layer = new Layer(output, layers[i + 1], weights[i], biases[i]);
+            output = layer.Calculate();
+        }
+
+        return output;
+    }
+
+    float[] ClassifyForTesting(float[] output)
+    {
+        outputs = new float[layers.Length][];
+        weightOutputs = new float[layers.Length - 1][];
+        outputs[0] = output;
+        for (int i = 0; i < layers.Length - 1; i++)
+        {
+            Layer layer = new Layer(output, layers[i + 1], weights[i], biases[i]);
+            output = layer.Calculate();
+
+            weightOutputs[i] = layer.weightOut;
+            outputs[i + 1] = output;
+        }
+
+        return output;
+    }
+}
+
+class Layer
+{
+    int outputSize;
+    float[] inputs, biases;
+    float[][] weights;
+    public float[] weightOut;
+
+    public Layer(float[] _inputs, int _outputSize, float[][] _weights, float[] _biases)
+    {
+        inputs = _inputs;
+        outputSize = _outputSize;
+        weights = _weights;
+        biases = _biases;
+    }
+
+    public float[] Calculate()
+    {
+        float[] outputs1 = new float[outputSize];
+        float[] output2 = new float[outputSize];
+
+        for (int i = 0; i < outputSize; i++)
+        {
+            float output = biases[i];
+            for (int e = 0; e < inputs.Length; e++)
+            {
+                output += inputs[e] * weights[i][e];
+            }
+
+            outputs1[i] = Sigmoid(output);
+            output2[i] = output;
+        }
+
+        weightOut = output2;
+        return outputs1;
+    }
+
+    public float Sigmoid(float input)
+    {
+        return (float)(1.0f / (1.0f + Math.Exp(-input)));
+    }
+}
+                    </pre>
+                </div>
+            </main>
+            <footer>
+
+            </footer>
+        </div>
+    </body>
+</html>

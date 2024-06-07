@@ -1,0 +1,34 @@
+header {
+    position: sticky;
+    top: 0;
+}
+
+body {
+    min-height: 100vh;
+}
+
+#images-div {
+    margin: 5vh auto 5vh;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1vh;
+    display: flex;
+    width: 90%;
+}
+
+#images-div div {
+    width: 300px;
+    height: auto;
+}
+
+@media(max-width: 600px) {
+
+    #images-div div {
+        width: 95vw;
+    }
+}
+
+#images-div img {
+    width: 100%;
+    height: 100%;
+}

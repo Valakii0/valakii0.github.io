@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="hu">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../CSS/style.css">
+        <link rel="stylesheet" href="../CSS/text.css">
+        <title>Neurális hálozat - Működése</title>
+    </head>
+    <body>
+        <div>
+            <header>
+                    <div>
+                        <a href="../index.html">főoldal</a>
+                        <a href="./test.html">teszt</a>
+                        <a href="./game.html">játék</a>
+                    </div>
+                    <div>
+                        <h1>Neurális hálók</h1>
+                        <h4>működése</h4>
+                    </div>
+                    <div>
+                        <a href="./history.html">története</a>
+                        <a href="./theory.html">működése</a>
+                        <a href="./code.html">kód</a>
+                    </div>
+            </header>
+            <main>
+                <div class="text-div">A gépes neurális hálózatok működése alapvetően a biológiai neuronok működésének elvén alapul, amelyet matematikai modellek formájában valósítanak meg. Egy tipikus neurális hálózat rétegekből épül fel, ahol minden réteg neuronokból áll. Az első réteg a bemeneti réteg, amely az adatok fogadásáért felelős. Az utolsó réteg a kimeneti réteg, amely az eredményeket szolgáltatja. A köztes rétegek, amelyeket rejtett rétegeknek nevezünk, a bemeneti és kimeneti réteg között helyezkednek el, és a számítási folyamat nagy részét végzik.</div>
+                <div class="text-div">Minden egyes neuron egy számítási egység, amely súlyozott összegzést végez a bemenetein, majd egy aktivációs függvényt alkalmaz az eredményre. A súlyok és az aktivációs függvények meghatározzák, hogy egy neuron hogyan reagál a bemeneti jelekre. A leggyakrabban használt aktivációs függvények közé tartozik a szigmoid, a ReLU (Rectified Linear Unit), és a tangens hiperbolikusz függvény. A súlyok kezdetben véletlenszerűen kerülnek beállításra, majd a tanulási folyamat során iteratív módon finomhangolásra kerülnek a hálózat teljesítményének javítása érdekében.</div>
+                <div class="text-div">A tanulási folyamat során a hálózat először végrehajt egy előre irányuló lépést (forward pass), ahol az input adatok áthaladnak a hálózaton, és minden rétegben kiszámítódnak a kimeneti értékek. Ezután a hálózat összehasonlítja a kapott kimenetet a kívánt eredménnyel, és kiszámítja a hibát. A hibát visszafelé irányuló lépés (backward pass) során propagálja vissza a hálózatba, és ennek alapján módosítja a súlyokat a gradiens leszállás (gradient descent) vagy annak valamilyen variációja segítségével. Ezt az iteratív folyamatot nevezik visszaterjesztésnek (backpropagation).</div>
+                <div class="text-div">A hálózat tanulási folyamata során a súlyok folyamatosan módosulnak, hogy minimalizálják a hibát és növeljék a hálózat pontosságát. Az iterációk számától és a tanulási rátától függően a hálózat egyre jobban képes lesz felismerni a bemeneti adatok és a kimeneti célok közötti összefüggéseket. A neurális hálózatok így képesek komplex mintázatok és jellemzők felismerésére, amelyeket hagyományos algoritmusokkal nehéz lenne megoldani.</div>
+                <div class="text-div">A gépes neurális hálózatok tehát egy iteratív, adatvezérelt folyamaton keresztül működnek, amely során a bemeneti adatok alapján finomítják a belső paramétereiket, hogy egyre pontosabb eredményeket érjenek el. Ez a rugalmasság és tanulási képesség teszi őket különösen alkalmassá a különböző komplex problémák megoldására.</div>
+            </main>
+            <footer>
+
+            </footer>
+        </div>
+    </body>
+</html>

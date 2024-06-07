@@ -1,0 +1,11 @@
+.text-div {
+    float: left;
+    padding: 2rem 6rem;
+    font-size: 2rem;
+    text-align: justify;
+    width: 70%;
+}
+
+main :nth-child(even) {
+    float: right;
+}

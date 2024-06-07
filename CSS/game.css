@@ -1,0 +1,45 @@
+canvas {
+    background-color: #535252;
+    width: 100%;
+    aspect-ratio: 1/1;
+}
+
+main > div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    gap: 1rem;
+
+    justify-content: center;
+    align-items: center;
+}
+
+main > div > div {
+    width: 25vw;
+}
+
+#text-div {
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 0rem;
+    font-size: 3rem;
+}
+
+#text-div > p:last-child {
+    font-size: 3.2rem;
+    transform: scaleX(80%) translateX(-12%);
+}
+
+#text-div b {
+    float: right;
+    font-size: 9rem;
+}
+
+b {
+    color: #b76111;
+    line-height: 3rem;
+    transform: translateX(-8rem);
+}

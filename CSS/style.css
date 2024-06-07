@@ -1,0 +1,89 @@
+:root {
+    --bg-color: #353839;
+    --primary-color: #7F7F7F;
+    --secondary-color: #A5A5A5;
+    --test-bg-color: #232323ba;
+    --button-color: #232323;
+}
+
+html {
+    font-size: 1vw;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--primary-color);
+}
+
+/* header */
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1rem 0 1rem;
+}
+
+header div {
+    display: flex;
+    width: 33%;
+    column-gap: 1.5rem;
+}
+
+header div:nth-child(2) {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header div:last-child {
+    justify-content: right;
+}
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 0px;
+}
+
+h4 {
+    margin-top: 0px;
+}
+
+header a {
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: var(--secondary-color);
+
+    background-image: linear-gradient(var(--secondary-color) 0 0);
+    background-position: bottom left;
+    background-size: 0% 0.1rem;
+    background-repeat: no-repeat;
+    transition-duration: 0.5s;
+}
+
+header a:hover {
+    background-size: 100% 0.1rem;
+}
+
+/* Scrollbar */
+
+/* width */
+::-webkit-scrollbar {
+    width: 1rem;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
