@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="-10 -10 420 420" xmlns="http://www.w3.org/2000/svg">
+
+    <style>
+        line {
+            stroke: #3e362e;
+            stroke-width: 5;
+        }
+
+        circle {
+            fill: #3e362e;
+            <!--stroke: #7F7F7F;-->
+            stroke-width: 3;
+            transition-duration: 0.75s;
+            transition-timing-function: ease-out;
+        }
+
+        .light {
+            fill: wheat;
+            filter: drop-shadow(0px 5px #a7987d);
+        }
+
+        .dark {
+            fill: #865d36;
+            filter: drop-shadow(0px 5px #543a22);
+        }
+
+        .selected {
+            stroke: #c39f1e;
+            stroke-width: 2;
+        }
+
+        .removable {
+            stroke: #7e0c1d;
+            stroke-width: 2;
+        }
+
+    </style>
+
+    <line x1="15" y1="15" x2="15" y2="385"/>
+    <line x1="15" y1="15" x2="385" y2="15"/>
+    <line x1="385" y1="385" x2="385" y2="15"/>
+    <line x1="385" y1="385" x2="15" y2="385"/>
+
+    <line x1="85" y1="85" x2="85" y2="315"/>
+    <line x1="85" y1="85" x2="315" y2="85"/>
+    <line x1="315" y1="315" x2="315" y2="85"/>
+    <line x1="315" y1="315" x2="85" y2="315"/>
+
+    <line x1="140" y1="140" x2="140" y2="260"/>
+    <line x1="140" y1="140" x2="260" y2="140"/>
+    <line x1="260" y1="260" x2="260" y2="140"/>
+    <line x1="260" y1="260" x2="140" y2="260"/>
+
+    <line x1="200" y1="15" x2="200" y2="140"/>
+    <line x1="200" y1="385" x2="200" y2="260"/>
+    <line x1="15" y1="200" x2="140" y2="200"/>
+    <line x1="385" y1="200" x2="260" y2="200"/>
+
+    <circle id="a" neighbours="hb" cx="15" cy="15" r="17"/>
+    <circle id="b" neighbours="ajc" cx="15" cy="200" r="17"/>
+    <circle id="c" neighbours="bd" cx="15" cy="385" r="17"/>
+    <circle id="h" neighbours="agp" cx="200" cy="15" r="17"/>
+    <circle id="d" neighbours="cle" cx="200" cy="385" r="17"/>
+    <circle id="g" neighbours="hf" cx="385" cy="15" r="17"/>
+    <circle id="f" neighbours="egn" cx="385" cy="200" r="17"/>
+    <circle id="e" neighbours="df" cx="385" cy="385" r="17"/>
+
+    <circle id="i" neighbours="jp" cx="85" cy="85" r="17"/>
+    <circle id="j" neighbours="ikbr" cx="85" cy="200" r="17"/>
+    <circle id="k" neighbours="jl" cx="85" cy="315" r="17"/>
+    <circle id="p" neighbours="iohx" cx="200" cy="85" r="17"/>
+    <circle id="l" neighbours="kdmt" cx="200" cy="315" r="17"/>
+    <circle id="o" neighbours="pn" cx="315" cy="85" r="17"/>
+    <circle id="n" neighbours="vofm" cx="315" cy="200" r="17"/>
+    <circle id="m" neighbours="ln" cx="315" cy="315" r="17"/>
+
+    <circle id="q" neighbours="xr" cx="140" cy="140" r="17"/>
+    <circle id="r" neighbours="qsj" cx="140" cy="200" r="17"/>
+    <circle id="s" neighbours="rt" cx="140" cy="260" r="17"/>
+    <circle id="x" neighbours="wqp" cx="200" cy="140" r="17"/>
+    <circle id="t" neighbours="sul" cx="200" cy="260" r="17"/>
+    <circle id="w" neighbours="xv" cx="260" cy="140" r="17"/>
+    <circle id="v" neighbours="wun" cx="260" cy="200" r="17"/>
+    <circle id="u" neighbours="tv" cx="260" cy="260" r="17"/>
+
+</svg>

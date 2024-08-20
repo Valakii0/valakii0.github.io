@@ -1,0 +1,46 @@
+:root {
+    --primary-color: #865d36;
+    --secondary-color: #a69080;
+}
+
+body {
+    margin: 0;
+    background-color: var(--secondary-color);
+}
+
+main > div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    display: flex;
+}
+
+#first-player-div, #second-player-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: min(6vh, 4vw);
+    gap: max(1vh, 0.5vw);
+}
+
+#first-player-div div, #second-player-div div {
+    width: min(5vh, 3vw);
+    aspect-ratio: 1/1;
+
+    background-color: red;
+    border-radius: 50%;
+}
+
+#first-player-div div {
+    background-color: wheat;
+}
+
+#second-player-div div {
+    background-color: #865d36;
+}
+
+#board-object { 
+    width: min(80vh, 80vw);
+}
