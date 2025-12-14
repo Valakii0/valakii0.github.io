@@ -1,65 +1,100 @@
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
+const wordDiv = document.querySelector('#word-div');
+const keyboardDiv = document.querySelector('#keyboard-div');
 
-const width = canvas.width = 1000;
-const height = canvas.height = 1000;
+const keyboardLetters = [
+    'qwertzuiop',
+    'asdfghjkl',
+    'yxcvbnm'
+];
 
-let seed = Math.random();
-noise.seed(seed);
+const testWords = [
+    'apple',    'banana',     'cherry',     'dragon',    'elephant',
+    'flower',   'guitar',     'honey',      'island',    'jungle',
+    'kangaroo', 'lemon',      'mountain',   'notebook',  'ocean',
+    'penguin',  'queen',      'rainbow',    'sunshine',  'tiger',
+    'umbrella', 'violin',     'whale',      'xylophone', 'yogurt',
+    'airplane', 'butterfly',  'candle',     'dolphin',   'eagle',
+    'firework', 'galaxy',     'helicopter', 'igloo',     'jacket',
+    'koala',    'lantern',    'microscope', 'nebula',    'octopus',
+    'pyramid',  'quartz',     'robot',      'saxophone', 'tornado',
+    'unicorn',  'volcano',    'waterfall',  'xenon',     'yacht',
+    'avocado',  'blizzard',   'cactus',     'diamond',   'emerald',
+    'falcon',   'glacier',    'hurricane',  'icicle',    'jigsaw',
+    'kettle',   'lighthouse', 'mango',      'zeppelin',  'orchid',
+    'pancake',  'quokka',     'raccoon',    'zebra',     'tulip',
+    'urchin',   'vulture',    'walrus',     'xerox',     'yeti'
+];
 
-let size = 100;
-let unit = width / size;
-let sharpness = 1;
+let remainingLetters = 'qwertzuiopasdfghjklyxcvbnm';
+let remainigLives    = 3;
+let solution;
 
-let offsetX = 0;
-let offsetY = 0;
+document.addEventListener('keypress', (e) => handleInput(e.key));
 
-document.addEventListener("keydown", movement);
-document.addEventListener("wheel", pixelate)
+function handleInput(letter) {
+    if (!remainingLetters.includes(letter)) return;
 
-function drawMap() {
-    ctx.clearRect(0, 0, width, height);
+    remainingLetters = 
+        remainingLetters.slice(0, remainingLetters.indexOf(letter)) + 
+        remainingLetters.slice(remainingLetters.indexOf(letter) + 1, remainingLetters.length);
 
-    for (let i = 0; i < size; i++) {
-        for (let e = 0; e < size; e++) {
-            let height = noise.simplex2((i + offsetX) / size * sharpness, (e + offsetY) / size * sharpness);
+    document.querySelector(`span[letter=${letter}]`).classList.add('removed');
+    updateWord(letter);
+}
 
-            ctx.fillStyle = `rgb(0, ${256 - Math.abs(height % 0.4) * 150}, 0)`
-            if (height > 0) ctx.fillStyle = `rgb(0, ${256 - Math.abs(height % 0.25) * 150}, 0)`
-            if (height < -0.4) ctx.fillStyle = `rgb(0, 0, ${256 + height * 150})`
+async function generateWord() {
+    let index = Math.floor(Math.random() * (testWords.length - 1));
+    solution = testWords[index];
 
-            ctx.beginPath();
-            ctx.rect(i * unit, e * unit, Math.ceil(unit), Math.ceil(unit));
-            ctx.fill();
-        }
+    displayWord();
+}
+
+function generateKeyboard() {
+    keyboardLetters.forEach(letterLine => {
+        let lineDiv = document.createElement('span');
+
+        Array.from(letterLine).forEach(letter => {
+            let letterSpan = document.createElement('span');
+            
+            letterSpan.textContent = letter;
+            letterSpan.setAttribute('letter', letter);
+            letterSpan.addEventListener('click', () => handleInput(letter));
+
+            lineDiv.appendChild(letterSpan)
+        });
+
+        keyboardDiv.appendChild(lineDiv);
+    });
+}
+
+function checkLetter(guessedLetter) {
+    if (solution.includes(guessedLetter)) {
+        updateWord(guessedLetter);
+        return;
+    }
+
+    remainigLives--;
+}
+
+function updateWord(guessedLetter) {
+    for (const [i, letter] of Array.from(solution).entries()) {
+        if (letter == guessedLetter) updateLetter(i);
     }
 }
 
-function movement(e) {
-    if (e.key == "ArrowLeft") offsetX -= size / 2;
-    if (e.key == "ArrowRight") offsetX += size /2;
-    if (e.key == "ArrowUp") offsetY -= size / 2;
-    if (e.key == "ArrowDown") offsetY += size / 2;
-
-    drawMap();
+function updateLetter(letterIndex) {
+    let letterSpan = wordDiv.children[letterIndex];
+    letterSpan.textContent = solution[letterIndex];
+    letterSpan.classList.add('solved');
 }
 
-function pixelate(e) {
-    if (e.wheelDeltaY > 0 && size > 15) {
-        size -= 5;
-        offsetRatio = size / (size + 5);
-
-    } else if (e.wheelDeltaY < 0 && size < 100) {
-        size += 5;
-        offsetRatio = size / (size - 5);
-
-    } else return
-    
-    offsetX *= offsetRatio;
-    offsetY *= offsetRatio;
-
-    unit = width / size;
-    drawMap();
+function displayWord() {
+    for (const _ of solution) {
+        let letterSpan = document.createElement('span');
+        letterSpan.textContent = `\xa0`;
+        wordDiv.appendChild(letterSpan);
+    }
 }
 
-drawMap();
+generateWord();
+generateKeyboard();

@@ -1,13 +1,84 @@
 body {
-    background-color: rgb(35, 35, 35);
+    font-family: 'Courier New', Courier, monospace;
+    user-select: none;
+
+    background-color: rgb(230, 230, 230);
 }
 
-canvas {
+#word-div {
     position: absolute;
-    top: 50%;
+    top: 25%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
 
-    height: 90vh;
-    aspect-ratio: 1;
+    width: 30vw;
+
+    display: flex;
+    justify-content: center;
+    gap: 1%;
+
+    font-size: 150%;
+}
+
+#word-div span {
+    padding: 3%;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+.solved {
+    box-shadow: 5px 5px black;
+    transform: translate(-5%, -5%);
+    transition: box-shadow 1s, transform 1s;
+}
+
+/* keyboard */
+
+#keyboard-div {
+    position: absolute;
+    bottom: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    font-size: 125%;
+    width: 30vw;
+}
+
+#keyboard-div > span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+}
+
+#keyboard-div span span {
+    display: inline-block;
+    
+    padding: 2%;
+    margin: 1%;
+    border-radius: 10px;
+    border: 1px solid black;
+    
+    box-shadow: 2px 2px black;
+    transform: translate(-2%, -2%);
+}
+
+#keyboard-div span:not(.removed) {
+    cursor: pointer;
+}
+
+.removed {
+    background-color: #0000001a;
+    border: 1px solid #00000000 !important;
+    box-shadow: none !important;
+    transform: none !important;
+
+    transition: box-shadow .5s, transform .5s, background-color .5s;
+}
+
+@media (max-width: 600px) {
+    #keyboard-div, #word-div {
+        width: 90vw;
+    }
 }
