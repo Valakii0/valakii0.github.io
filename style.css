@@ -32,8 +32,6 @@ body {
     transition: box-shadow 1s, transform 1s;
 }
 
-/* keyboard */
-
 #keyboard-div {
     position: absolute;
     bottom: 25%;
@@ -44,7 +42,7 @@ body {
     width: 30vw;
 }
 
-#keyboard-div > span {
+#keyboard-div > div {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -52,7 +50,7 @@ body {
     width: 100%;
 }
 
-#keyboard-div span span {
+#keyboard-div span {
     display: inline-block;
     
     padding: 2%;

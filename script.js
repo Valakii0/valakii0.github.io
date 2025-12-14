@@ -51,16 +51,19 @@ async function generateWord() {
 
 function generateKeyboard() {
     keyboardLetters.forEach(letterLine => {
-        let lineDiv = document.createElement('span');
+        let lineDiv = document.createElement('div');
 
         Array.from(letterLine).forEach(letter => {
             let letterSpan = document.createElement('span');
             
             letterSpan.textContent = letter;
             letterSpan.setAttribute('letter', letter);
-            letterSpan.addEventListener('click', () => handleInput(letter));
+            letterSpan.addEventListener('click', (e) => {
+                e.preventDefault();
+                handleInput(letter);
+            });
 
-            lineDiv.appendChild(letterSpan)
+            lineDiv.appendChild(letterSpan);
         });
 
         keyboardDiv.appendChild(lineDiv);
