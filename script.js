@@ -1,5 +1,6 @@
-const wordDiv = document.querySelector('#word-div');
 const keyboardDiv = document.querySelector('#keyboard-div');
+const wordDiv = document.querySelector('#word-div');
+const livesP = document.querySelector('#lives-p');
 
 const keyboardLetters = [
     'qwertzuiop',
@@ -25,21 +26,23 @@ const testWords = [
     'urchin',   'vulture',    'walrus',     'xerox',     'yeti'
 ];
 
+const maxLives = 5;
+
 let remainingLetters = 'qwertzuiopasdfghjklyxcvbnm';
-let remainigLives    = 3;
+let remainigLives    = maxLives;
 let solution;
 
 document.addEventListener('keypress', (e) => handleInput(e.key));
 
 function handleInput(letter) {
-    if (!remainingLetters.includes(letter)) return;
+    if (!remainingLetters.includes(letter) || remainigLives < 1) return;
 
     remainingLetters = 
         remainingLetters.slice(0, remainingLetters.indexOf(letter)) + 
         remainingLetters.slice(remainingLetters.indexOf(letter) + 1, remainingLetters.length);
 
     document.querySelector(`span[letter=${letter}]`).classList.add('removed');
-    updateWord(letter);
+    checkLetter(letter);
 }
 
 async function generateWord() {
@@ -77,6 +80,12 @@ function checkLetter(guessedLetter) {
     }
 
     remainigLives--;
+
+    keyboardDiv.classList.remove('wrong-letter');
+    void keyboardDiv.offsetWidth;
+    keyboardDiv.classList.add('wrong-letter');
+
+    updateLives();
 }
 
 function updateWord(guessedLetter) {
@@ -99,5 +108,21 @@ function displayWord() {
     }
 }
 
+function disableKeyboard() {
+    let activeKeys = [...keyboardDiv.querySelectorAll('span:not(.removed)')];
+    activeKeys.sort(() => Math.random() - 0.5);
+
+    for (const [i, key] of activeKeys.entries()) {
+        setTimeout(() => key.classList.add('removed'), i * 10);
+    }
+}
+
+function updateLives() {
+    livesP.textContent = 'lives: ' + remainigLives + '/' + maxLives;
+
+    if (remainigLives < 1) disableKeyboard();
+}
+
+updateLives();
 generateWord();
 generateKeyboard();

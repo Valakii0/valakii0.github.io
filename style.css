@@ -32,12 +32,19 @@ body {
     transition: box-shadow 1s, transform 1s;
 }
 
-#keyboard-div {
+#main-div {
     position: absolute;
-    bottom: 25%;
+    bottom: 20%;
     left: 50%;
     transform: translateX(-50%);
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#keyboard-div {
+    position: relative;
     font-size: 125%;
     width: 30vw;
 }
@@ -73,6 +80,18 @@ body {
     transform: none !important;
 
     transition: box-shadow .5s, transform .5s, background-color .5s;
+}
+
+.wrong-letter {
+    animation: wrong-letter .3s ease-out;
+}
+
+@keyframes wrong-letter {
+    0%   { transform: translateX( 0%); }
+    25%  { transform: translateX( 1%); }
+    50%  { transform: translateX(-1%); }
+    75%  { transform: translateX( 1%); }
+    100% { transform: translateX( 0%); }
 }
 
 @media (max-width: 600px) {
